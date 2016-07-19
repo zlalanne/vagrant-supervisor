@@ -1,0 +1,25 @@
+#!/usr/bin/env python3
+import sys
+import subprocess
+
+from manager.config import Config
+from manager.parsers import parse_status
+
+
+def main():
+    user_config = Config()
+
+    command = sys.argv[1]
+
+    if command == 'status':
+        for machine in user_config.config:
+            if machine['connection_type'] == 'local':
+                output = subprocess.check_output(['vagrant', 'global-status',
+                                                  '--prune'])
+                output = str(output).split('\\n')
+                status = parse_status(output)
+                print(status)
+
+
+if __name__ == '__main__':
+    main()
