@@ -4,40 +4,29 @@
 
 Usage:
   vagrant_supervisor status [machine]
-  vagrant_supervisor machine new
-  vagrant_supervisor machine delete <machine>
+  vagrant_supervisor destroy <machine> <box>
+  vagrant_supervisor up <machine> <box>
+  vagrant_supervisor suspend <machine> <box>
+  vagrant_supervisor halt <machine> <box>
+  vagrant_supervisor machine add
+  vagrant_supervisor machine remove <machine>
 
 Options:
   -h --help          Show this screen
   --version          Show version.
 """
 
-import sys
-import subprocess
-
 from docopt import docopt
 
-from manager.config import Config
-from manager.parsers import parse_status
-
-from pprint import pprint
+from supervisor.config import Config
+from supervisor.command import parse_cmd_args
 
 
 def main():
     args = docopt(__doc__, version='Vagrant Supervisor 0.0.1')
-    pprint(args)
+    cmd = parse_cmd_args(args)
     user_config = Config()
-
-    command = sys.argv[1]
-
-    if command == 'status':
-        for machine in user_config.config:
-            if machine['connection_type'] == 'local':
-                output = subprocess.check_output(['vagrant', 'global-status',
-                                                  '--prune'])
-                output = str(output).split('\\n')
-                status = parse_status(output)
-                print(status)
+    cmd.run_cmd(user_config)
 
 
 if __name__ == '__main__':
