@@ -1,12 +1,31 @@
 #!/usr/bin/env python3
+
+"""Vagrant Supervisor.
+
+Usage:
+  vagrant_supervisor status [machine]
+  vagrant_supervisor machine new
+  vagrant_supervisor machine delete <machine>
+
+Options:
+  -h --help          Show this screen
+  --version          Show version.
+"""
+
 import sys
 import subprocess
+
+from docopt import docopt
 
 from manager.config import Config
 from manager.parsers import parse_status
 
+from pprint import pprint
+
 
 def main():
+    args = docopt(__doc__, version='Vagrant Supervisor 0.0.1')
+    pprint(args)
     user_config = Config()
 
     command = sys.argv[1]
