@@ -1,5 +1,6 @@
 from enum import Enum
 from pprint import pprint
+import logging
 
 
 class CommandType(Enum):
@@ -16,15 +17,36 @@ class Command:
     def __init__(self, command_type):
         self.command_type = command_type
 
-    def run_cmd(self, config):
-        print('Running {}'.format(self.command_type))
+    def run_cmd(self):
+        raise NotImplementedError
+
+
+class StatusCommand(Command):
+
+    def __init__(self, machine):
+        super().__init__(CommandType.status)
+        self.machine = machine
+
+    def run_cmd(self):
+        logging.debug('Running status command')
+
+
+class DestroyCommand(Command):
+
+    def __init__(self, machine, box):
+        super().__init__(CommandType.destroy)
+        self.machine = machine
+        self.box = box
+
+    def run_cmd(self):
+        logging.debug('Running destroy command')
 
 
 def parse_cmd_args(args):
     if args['status'] is True:
-        cmd = Command(CommandType.status)
+        cmd = StatusCommand(args['machine'])
     elif args['destroy'] is True:
-        cmd = Command(CommandType.destroy)
+        cmd = DestroyCommand(args['<machine>'], args['<box>'])
     elif args['up'] is True:
         cmd = Command(CommandType.up)
     elif args['suspend'] is True:
