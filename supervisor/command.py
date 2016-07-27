@@ -17,7 +17,7 @@ class Command:
     def __init__(self, command_type):
         self.command_type = command_type
 
-    def run_cmd(self):
+    def run_cmd(self, config):
         raise NotImplementedError
 
 
@@ -27,7 +27,7 @@ class StatusCommand(Command):
         super().__init__(CommandType.status)
         self.machine = machine
 
-    def run_cmd(self):
+    def run_cmd(self, config):
         logging.debug('Running status command')
 
 
@@ -38,7 +38,7 @@ class DestroyCommand(Command):
         self.machine = machine
         self.box = box
 
-    def run_cmd(self):
+    def run_cmd(self, config):
         logging.debug('Running destroy command')
 
 

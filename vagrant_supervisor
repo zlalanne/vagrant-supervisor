@@ -3,7 +3,7 @@
 """Vagrant Supervisor.
 
 Usage:
-  vagrant_supervisor status [machine]
+  vagrant_supervisor status [<machine>]
   vagrant_supervisor destroy <machine> <box>
   vagrant_supervisor up <machine> <box>
   vagrant_supervisor suspend <machine> <box>
@@ -27,6 +27,7 @@ def main():
     cmd = parse_cmd_args(args)
     user_config = Config()
     cmd.run_cmd(user_config)
+    user_config.write_config()
 
 
 if __name__ == '__main__':
