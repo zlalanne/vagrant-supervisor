@@ -23,12 +23,20 @@ class Command:
 
 class StatusCommand(Command):
 
-    def __init__(self, machine):
+    def __init__(self, server):
         super().__init__(CommandType.status)
-        self.machine = machine
+        self.server = server
+        if server is None:
+            self.query_all_servers = True
+        else:
+            self.query_all_servers = False
 
     def run_cmd(self, config):
         logging.debug('Running status command')
+        vagrantcmd = ['vagrant', 'global-status', '--prune']
+        if self.query_all_servers:
+            for server in config.servers:
+                pass
 
 
 class DestroyCommand(Command):
@@ -44,9 +52,9 @@ class DestroyCommand(Command):
 
 def parse_cmd_args(args):
     if args['status'] is True:
-        cmd = StatusCommand(args['machine'])
+        cmd = StatusCommand(args['<server>'])
     elif args['destroy'] is True:
-        cmd = DestroyCommand(args['<machine>'], args['<box>'])
+        cmd = DestroyCommand(args['<server>'], args['<box>'])
     elif args['up'] is True:
         cmd = Command(CommandType.up)
     elif args['suspend'] is True:

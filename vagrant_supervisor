@@ -3,13 +3,13 @@
 """Vagrant Supervisor.
 
 Usage:
-  vagrant_supervisor status [<machine>]
-  vagrant_supervisor destroy <machine> <box>
-  vagrant_supervisor up <machine> <box>
-  vagrant_supervisor suspend <machine> <box>
-  vagrant_supervisor halt <machine> <box>
-  vagrant_supervisor machine add
-  vagrant_supervisor machine remove <machine>
+  vagrant_supervisor status [<server>]
+  vagrant_supervisor destroy <server> <box>
+  vagrant_supervisor up <server> <box>
+  vagrant_supervisor suspend <server> <box>
+  vagrant_supervisor halt <server> <box>
+  vagrant_supervisor server add
+  vagrant_supervisor server remove <server>
 
 Options:
   -h --help          Show this screen
